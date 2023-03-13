@@ -3,6 +3,7 @@ import 'package:assignment/data/models/photo_model.dart';
 import 'package:assignment/data/repositories/album_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mockito/annotations.dart';
 
 part 'album_event.dart';
 
