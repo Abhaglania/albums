@@ -1,11 +1,26 @@
+import 'package:assignment/presentation/blocs/album_bloc.dart';
+import 'package:assignment/presentation/screens/album_list_screen.dart';
+import 'package:assignment/services/api_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'data/repositories/album_repository.dart';
 
 void main() {
-  runApp(const MyApp());
+  final dio = Dio();
+  final apiService = ApiService(dio);
+  final albumRepository = AlbumRepository(apiService: apiService);
+  final albumBloc = AlbumBloc(albumRepository: albumRepository);
+  runApp(MyApp(
+    albumBloc: albumBloc,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AlbumBloc albumBloc;
+
+  const MyApp({super.key, required this.albumBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -14,21 +29,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => BlocProvider.value(
+              value: albumBloc,
+              child: const AlbumListScreen(),
+            ),
+        //  '/album': (context) => AlbumDetailScreen(),
+      },
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
