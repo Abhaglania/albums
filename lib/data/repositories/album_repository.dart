@@ -9,4 +9,8 @@ class AlbumRepository {
   Future<List<AlbumModel>> getAlbums() async {
     return await apiService.getAlbums();
   }
+
+  Future<List<AlbumModel>> searchAlbums(String query) async {
+    return await apiService.searchAlbumsByTitle(query);
+  }
 }

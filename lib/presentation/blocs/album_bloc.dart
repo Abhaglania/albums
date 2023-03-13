@@ -3,37 +3,9 @@ import 'package:assignment/data/repositories/album_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-abstract class AlbumEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+part 'album_event.dart';
 
-class LoadAlbums extends AlbumEvent {}
-
-abstract class AlbumState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class AlbumsLoading extends AlbumState {}
-
-class AlbumsLoaded extends AlbumState {
-  final List<AlbumModel> albums;
-
-  AlbumsLoaded({required this.albums});
-
-  @override
-  List<Object> get props => [albums];
-}
-
-class AlbumsLoadingFailed extends AlbumState {
-  final String message;
-
-  AlbumsLoadingFailed({required this.message});
-
-  @override
-  List<Object> get props => [message];
-}
+part 'album_state.dart';
 
 class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
   final AlbumRepository albumRepository;
@@ -44,6 +16,15 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
         AlbumsLoading();
         try {
           final albums = await albumRepository.getAlbums();
+          emit(AlbumsLoaded(albums: albums));
+        } catch (e) {
+          emit(AlbumsLoadingFailed(message: e.toString()));
+        }
+      } else if (event is SearchAlbums) {
+        final query = event.query.toLowerCase();
+
+        try {
+          final albums = await albumRepository.searchAlbums(query);
           emit(AlbumsLoaded(albums: albums));
         } catch (e) {
           emit(AlbumsLoadingFailed(message: e.toString()));

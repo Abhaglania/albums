@@ -44,8 +44,12 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
                       labelText: 'Search',
                       border: OutlineInputBorder(),
                     ),
-                    onChanged: (value) {
-                      //    _albumBloc.add(SearchAlbums(title: value));
+                    onSubmitted: (value) {
+                      if (value.isEmpty) {
+                        _albumBloc.add(LoadAlbums());
+                        return;
+                      }
+                      _albumBloc.add(SearchAlbums(value));
                     },
                   ),
                 ),
