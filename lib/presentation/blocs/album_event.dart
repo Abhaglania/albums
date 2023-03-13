@@ -17,3 +17,12 @@ class SearchAlbums extends AlbumEvent {
   @override
   List<Object> get props => [query];
 }
+
+class AlbumPhotos extends AlbumEvent {
+  final int albumId;
+
+  const AlbumPhotos(this.albumId);
+
+  @override
+  List<Object> get props => [albumId];
+}

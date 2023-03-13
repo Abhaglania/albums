@@ -16,11 +16,20 @@ class AlbumsLoaded extends AlbumState {
   List<Object> get props => [albums];
 }
 
-class AlbumsLoadingFailed extends AlbumState {
+class ErrorState extends AlbumState {
   final String message;
 
-  AlbumsLoadingFailed({required this.message});
+  ErrorState({required this.message});
 
   @override
   List<Object> get props => [message];
+}
+
+class AlbumPhotosLoaded extends AlbumState {
+  final List<PhotoModel> photos;
+
+  AlbumPhotosLoaded({required this.photos});
+
+  @override
+  List<Object> get props => [photos];
 }

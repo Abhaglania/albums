@@ -1,5 +1,6 @@
 import 'package:assignment/presentation/blocs/album_bloc.dart';
 import 'package:assignment/presentation/screens/album_list_screen.dart';
+import 'package:assignment/presentation/screens/album_photos_page.dart';
 import 'package:assignment/services/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +31,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute: '/',
+      debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => BlocProvider.value(
               value: albumBloc,
               child: const AlbumListScreen(),
             ),
-        //  '/album': (context) => AlbumDetailScreen(),
+        '/album': (context) => BlocProvider.value(
+          value: albumBloc,
+          child: const AlbumPhotosPage(),
+        ),
       },
     );
   }
